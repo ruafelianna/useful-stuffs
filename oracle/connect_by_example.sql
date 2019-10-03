@@ -12,13 +12,16 @@ SELECT
 	  id_employee
 	, last_name
 	, fid_manager
-	, LEVEL
-	, LPAD(' ', 3 * (LEVEL - 1)) || last_name AS tree
+	, LEVEL -- hierarchy level
+	, LPAD(' ', 3 * (LEVEL - 1)) || last_name AS tree -- hierarchial (tree) view
+	, SYS_CONNECT_BY_PATH(last_name, '/') AS path  -- path from the root level to the current one
+	, CONNECT_BY_ROOT last_name AS boss -- get parent info
+	--, CONNECT_BY_ISCYCLE -- whether the row contains a loop. It can be used only with NOCYCLE
 FROM
 	employees
 START WITH
-	manager_id IS NULL
-CONNECT BY
+	manager_id IS NULL -- a root row for the hierarchy
+CONNECT BY -- NOCYCLE -- if we have a loop in the data
 	PRIOR id_employee = fid_manager
 --ORDER SIBLINGS BY
 --	last_name
