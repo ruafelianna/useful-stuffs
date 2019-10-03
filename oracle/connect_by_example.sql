@@ -13,7 +13,7 @@ SELECT
 	, last_name
 	, fid_manager
 	, LEVEL
-	, LPAD(' ', 3 * (LEVEL - 1) || last_name AS tree
+	, LPAD(' ', 3 * (LEVEL - 1)) || last_name AS tree
 FROM
 	employees
 START WITH
