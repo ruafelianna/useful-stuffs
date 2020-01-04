@@ -80,7 +80,7 @@ def getGcdEuclidExt(a, b):
 # (ex + fy) % f = 1 % f
 # ex % f = 1, x = modular multiplicative inverse of e % f
 # Euclid method also returns negative numbers so we use the following equality for (A):
-# x = eN + k: N is integer, k is one of the solutions for x in (A)
+# x = fN + k: N is integer, k is one of the solutions for x in (A)
 def getSecretExp(e, f):
     d, x, y = getGcdEuclidExt(e, f)
     if d != 1:
