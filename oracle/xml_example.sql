@@ -47,8 +47,22 @@ FROM
     ) t
 ;
 
+SELECT
+    *
+FROM
+    XMLTABLE('/data/rows/row' PASSING XmlType(:xml_input) COLUMNS
+          name              VARCHAR2(20) PATH './param[@name="NAME"]'
+        , surname           VARCHAR2(20) PATH './param[@name="SURNAME"]'
+        , birthday          VARCHAR2(20) PATH './param[@name="BIRTHDAY"]'
+        , additional_info_1 VARCHAR2(20) PATH './additional-info-list/additional-info[position()=1]'
+        , additional_info_2 VARCHAR2(20) PATH './additional-info-list/additional-info[position()=2]'
+        , additional_info_3 VARCHAR2(20) PATH './additional-info-list/additional-info[3]'
+        , additional_info_4 VARCHAR2(20) PATH './additional-info-list/additional-info[4]'
+     ) xmlt
+; 
+
 /*
-Output:
+Output (for both queries):
 -----------------------------------------------------------------------------------------------------------------
 | NAME  | SURNAME  |  BIRTHDAY  | ADDITIONAL_INFO_1 | ADDITIONAL_INFO_2 | ADDITIONAL_INFO_3 | ADDITIONAL_INFO_4 |
 =================================================================================================================
