@@ -12,6 +12,7 @@ FROM
 SELECT
 	  versions_starttime
 	, versions_endtime
+	, versions_operation
 	, tbl.*
 FROM
 	my_table
