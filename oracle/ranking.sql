@@ -71,4 +71,6 @@ RN_STATE_GROUP_ASC, RN_STATE_GROUP_DESC - number of the state among all such sta
 DRN - ranking the states over time giving the same number to the row if the previous state is the same
 
 P.S. UNIQUE_ID is used with STARTED_AT in order by clause to make the solution the same for the equal values of STARTED_AT
+P.P.S. RN_STATE_GROUP_ASC and RN_STATE_GROUP_DESC can be used for instance if you want to get the first or the last value
+       over the group of equal states which go one after another over time
 */
