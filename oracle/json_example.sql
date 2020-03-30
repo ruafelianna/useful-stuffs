@@ -124,3 +124,37 @@ Output:
 |       5      |       mno      |
 ---------------------------------
 */
+
+--------------------------------------------------------------------------------
+
+/* Creating JSON object */
+
+with
+sq as (
+    select 'apple' as fruit, 12 as cnt from dual
+    union all
+    select 'orange' as fruit, 15 as cnt from dual
+    union all
+    select 'banana' as fruit, 8 as cnt from dual
+)
+select
+    json_object(
+          'fruit_name' value fruit
+        , 'fruit_count' value cnt
+    ) as js
+from
+    sq
+;
+
+/*
+Output:
+--------------------------------------------
+|                    JS                    |
+============================================
+| {"fruit_name":"apple","fruit_count":12}  |
+--------------------------------------------
+| {"fruit_name":"orange","fruit_count":15} |
+--------------------------------------------
+| {"fruit_name":"banana","fruit_count":8}  |
+--------------------------------------------
+*/
