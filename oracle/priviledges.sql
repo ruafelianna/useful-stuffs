@@ -8,7 +8,7 @@ begin
         select
               'GRANT ALL ON "'
             || object_name
-            || '" TO :my_scheme' as grantsql
+            || '" TO my_scheme' as grantsql
         from
             user_objects
         where
@@ -23,7 +23,7 @@ begin
     ) loop
         begin
             -- dbms_output.put_line(objects.grantsql);
-            execute immediate objects.grantsql using :my_scheme;
+            execute immediate objects.grantsql;
         exception
             when others then
                 --Ignore ORA-04063: view "X.Y" has errors.
