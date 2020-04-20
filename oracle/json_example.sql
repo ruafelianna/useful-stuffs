@@ -158,3 +158,40 @@ Output:
 | {"fruit_name":"banana","fruit_count":8}  |
 --------------------------------------------
 */
+
+--------------------------------------------------------------------------------
+
+/*
+Getting values from scalar array
+
+json_input = ["apple", "banana", "orange", 1, 2, 3]
+*/
+
+SELECT
+    js.value
+FROM
+    JSON_TABLE (
+        :json_input, '$[*]' COLUMNS (
+            value VARCHAR2 PATH '$[*]'
+        )
+    ) js
+;
+
+/*
+Output:
+----------
+| VALUE  |
+==========
+| apple  |
+----------
+| banana |
+----------
+| orange |
+----------
+|   1    |
+----------
+|   2    |
+----------
+|   3    |
+----------
+*/
