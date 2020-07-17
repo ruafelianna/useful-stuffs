@@ -47,3 +47,46 @@ order by
     dbo.object_name
 --    mb desc
 ;
+                           
+select
+    tablespace_name,
+    to_char(sum(bytes)) bytes,
+    to_char(trunc(sum(bytes) / 1024, 1)) KB,
+    to_char(trunc(sum(bytes) / 1048576, 1)) MB,
+    sum(blocks) blocks
+from
+    dba_free_space
+where
+    tablespace_name like :tablespace_name
+group by
+    tablespace_name
+order by
+    tablespace_name
+;
+
+select
+    tablespace_name as "tablespace_name",
+    sum(size_mb) as "total, MB",
+    sum(free_mb) as "free, MB",
+    round((sum(size_mb) - sum(free_mb)) * 100 / sum(size_mb), 2) as "used, %"
+from
+    (
+        select
+            f.tablespace_name,
+            round(max(f.bytes) / 1024 / 1024, 2) as size_mb,
+            round(sum(nvl(fs.bytes, 0)) / 1024 / 1024, 2) as free_mb
+        from
+            dba_data_files   f,
+            dba_free_space   fs
+        where
+            f.tablespace_name = fs.tablespace_name
+            and f.file_id = fs.file_id
+        group by
+            f.tablespace_name,
+            f.file_id
+    )
+group by
+    tablespace_name
+order by
+    "used, %" desc
+;
