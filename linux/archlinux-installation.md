@@ -134,7 +134,7 @@ or use any other server with Arch repository instead.
 
 ```useradd -G audio,games,lp,optical,power,scanner,storage,video,wheel -s /bin/bash -m YOUR_USERNAME```
 
-12. Make your new user an administrator by uncommenting the following line in the ```/etc/sudoers``` file:
+12. Set your new user as an administrator by uncommenting the following line in the ```/etc/sudoers``` file:
 
 ```
 %wheel ALL=(ALL) ALL
@@ -227,16 +227,12 @@ pacman -S networkmanager network-manager-applet
 systemctl enable NetworkManager
 ```
 
-* Yaourt (AUR package manager) installation:
+* YaY (AUR package manager) installation:
 
 ```
-pacman -S git wget yajl
-git clone https://aur.archlinux.org/package-query.git
-cd package-query/
-makepkg -si
-cd ..
-git clone https://aur.archlinux.org/yaourt.git
-cd yaourt/
+pacman -S git
+git clone https://aur.archlinux.org/yay.git
+cd yay
 makepkg -si
 cd ..
 rm -Rf yaourt/ package-query/
@@ -252,11 +248,11 @@ rm -Rf yaourt/ package-query/
 
 * Other software:
 
-```yaourt -S powerpill``` - pacman wrapper for faster downloads
+```yay -S powerpill``` - pacman wrapper for faster downloads
 
 ```pacman -S firefox``` - web browser from ozilla.org
 
-```yaourt -S google-chrome``` - web browser from Google
+```yay -S google-chrome``` - web browser from Google
 
 ```pacman -S terminator``` - terminal emulator that supports tabs and grids
 
@@ -304,7 +300,7 @@ rm -Rf yaourt/ package-query/
 
 ```pacman -S geany``` - lightweight IDE
 
-```yaourt -S sublime-text-3-imfix``` - sophisticated text editor for code, markup and prose - stable build
+```yay -S sublime-text-3-imfix``` - sophisticated text editor for code, markup and prose - stable build
 
 ```pacman -S emacs``` - the extensible, customizable, self-documenting real-time display editor
 
