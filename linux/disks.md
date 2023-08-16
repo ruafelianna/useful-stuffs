@@ -12,6 +12,6 @@ Adding HDD automount example:
 
 (*where UUID_from_blkid is UUID, which you can get from paragraph 1*)
 
-Note that ```/mnt/docs``` should be created manually before adding above mentioned line to ```/etc/fstab```.
+Note that ```/mnt/docs``` should be created manually before adding mentioned above line to ```/etc/fstab```.
 
 Also don't forget to set proper permissions for the ```/mnt/docs``` directory.
