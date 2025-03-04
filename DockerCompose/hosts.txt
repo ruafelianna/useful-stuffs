@@ -1,0 +1,8 @@
+127.0.0.1 adminer.silva-viridis.ru
+127.0.0.1 baget.silva-viridis.ru
+127.0.0.1 db.baget.silva-viridis.ru
+127.0.0.1 gitea.silva-viridis.ru
+127.0.0.1 db.gitea.silva-viridis.ru
+127.0.0.1 pgadmin.silva-viridis.ru
+127.0.0.1 flask.python.silva-viridis.ru
+127.0.0.1 db.devconf.silva-viridis.ru
