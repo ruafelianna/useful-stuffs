@@ -24,6 +24,14 @@ class Environment:
     EnvDir = "env"
     EnvExt = ".env"
 
+    HostsFile = "hosts.txt"
+
+    # nginx
+    class Nginx:
+        ConfExt = ".conf"
+        ConfFile = f"nginx{ConfExt}"
+        ConfDir = "nginx_conf_d"
+
     # postgres
     class Pg:
         Image = "postgres"

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from os.path import join as path_join
-
+from Models.EnvFile import EnvFile
 from Models.Network import Network
 from Models.Port import Port
 from Models.Volume import Volume
@@ -10,7 +9,7 @@ from Settings.Environment import Environment as env
 class ComposeFile:
     def __init__(
         self,
-        container_name: str,
+        container_name : str,
         host_prefix : str,
         image_name : str,
         image_version : str,
@@ -18,7 +17,7 @@ class ComposeFile:
         volumes : tuple[Volume] = (),
         ports : tuple[Port] = (),
         command : str = None,
-        envvars: set[str] = (),
+        env_vars: set[str] = (),
     ):
         self.container_name = container_name
         self.host_prefix = host_prefix
@@ -28,31 +27,40 @@ class ComposeFile:
         self.volumes = volumes
         self.ports = ports
         self.command = command
-        self.envvars = envvars
-        self.envs : set[str] = set()
-        self.deps : set[str] = set()
+        self.env_vars = env_vars
+        self.env_files : set[EnvFile] = set()
+        self.dependencies : set[ComposeFile] = set()
 
-    def add_env(self, compose_file: ComposeFile) -> None:
-        self.envs.add(compose_file.container_name)
+    # properties
 
-    def add_dep(self, compose_file: ComposeFile) -> None:
-        self.deps.add(compose_file.container_name)
+    def get_hostname(self):
+        return f"{self.host_prefix}.{env.NetworkDomain}"
+
+    def get_image(self):
+        return f"{self.image_name}:{self.image_version}"
+
+    def get_volume(self, volume : Volume) -> str:
+        return f"{volume.get_full_host_path(self.container_name)}:{volume.container_path}"
+
+    # docker compose file generation
 
     def generate_compose_file(self) -> str:
-        self.envs.add(self.container_name)
+        self.env_files.add(EnvFile(self.container_name))
         return self._concat_fields((
             self._generate_section_services(),
             self._generate_section_networks(),
         ))
 
+    # fields generation
+
     def _generate_container_name(self) -> str:
         return f"container_name: {self.container_name}"
 
     def _generate_hostname(self) -> str:
-        return f"hostname: {self.host_prefix}.{env.NetworkDomain}"
+        return f"hostname: {self.get_hostname()}"
 
     def _generate_image(self) -> str:
-        return f"image: {self.image_name}:{self.image_version}"
+        return f"image: {self.get_image()}"
 
     def _generate_restart(self) -> str:
         return "restart: always"
@@ -67,16 +75,20 @@ class ComposeFile:
         return self._generate_list("networks", self.networks, lambda x: x.name, 3)
 
     def _generate_volumes(self) -> str:
-        func = lambda x: f"{path_join(env.BaseDataFolder, self.container_name, x.host_path)}:{x.container_path}"
+        def func(volume : Volume) -> str:
+            return self.get_volume(volume)
         return self._generate_list("volumes", self.volumes, func, 3)
 
     def _generate_env_file(self) -> str:
-        func = lambda x: path_join(env.EnvDir, f"{x}{env.EnvExt}")
-        return self._generate_list("env_file", self.envs, func, 3)
+        return self._generate_list("env_file", self.env_files, EnvFile.get_full_path, 3)
 
     def _generate_depends_on(self) -> str:
-        return self._generate_list("depends_on", self.deps, lambda x: x, 3)
+        def func(container : ComposeFile) -> str:
+            return container.container_name
+        return self._generate_list("depends_on", self.dependencies, func, 3)
     
+    # sections generation
+
     def _generate_section_services(self) -> str:
         fields = (
             self._generate_container_name(),
@@ -99,6 +111,8 @@ class ComposeFile:
         return f"networks:{env.LF}{networks}" \
             if self._check_not_empty(self.networks) else None
     
+    # utils
+
     def _generate_list(self, caterogy: str, data: tuple, func: function[object, str], tabs: int) -> str:
         data = [f"- {func(obj)}" for obj in data]
         return f"{caterogy}:{env.LF}{self._concat_fields(data, tabs)}" \

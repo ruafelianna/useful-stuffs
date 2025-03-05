@@ -1,3 +1,5 @@
+from ComposeModels.ComposeFile import ComposeFile
+from Models.Network import Network
 from Settings.Environment import Environment as env
 from Templates.Adminer import adminer
 from Templates.Baget import baget, baget_db
@@ -19,7 +21,7 @@ composer_files = (
     sv_devconf_db,
 )
 
-servers = {
+servers : dict[Network, tuple[ComposeFile]] = {
     env.Networks.Dev: (
         web_dev,
     ),

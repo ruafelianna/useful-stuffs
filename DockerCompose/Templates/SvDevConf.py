@@ -1,5 +1,6 @@
 from ComposeModels.MockComposeFile import MockComposeFile
 from ComposeModels.PostgresComposeFile import PostgresComposeFile
+from Models.EnvFile import EnvFile
 from Settings.Environment import Environment as env
 
 sv_devconf = MockComposeFile(
@@ -13,5 +14,5 @@ sv_devconf = MockComposeFile(
 
 sv_devconf_db = PostgresComposeFile(sv_devconf, env.Pg.PortDelta_SvDevConf)
 
-sv_devconf.add_env(sv_devconf_db)
-sv_devconf.add_dep(sv_devconf_db)
+sv_devconf.env_files.add(EnvFile(sv_devconf_db.container_name))
+sv_devconf.dependencies.add(sv_devconf_db)

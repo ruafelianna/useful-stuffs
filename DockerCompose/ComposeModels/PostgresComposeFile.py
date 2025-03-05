@@ -22,9 +22,9 @@ class PostgresComposeFile(ComposeFile):
             ports = (
                 Port(StandardPorts.Postgres, StandardPorts.Postgres + port_delta),
             ),
-            envvars = (
+            env_vars = set((
                 f"POSTGRES_DB={parent_container.container_name}",
                 f"POSTGRES_USER={parent_container.container_name}",
                 f"POSTGRES_DB={parent_container.container_name}",
-            ),
+            )),
         )

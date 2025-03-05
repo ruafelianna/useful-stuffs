@@ -7,5 +7,5 @@ class Volume:
         self.container_path = container_path
         self.host_path = host_path
 
-    def full_host_path(self, container_name: str):
+    def get_full_host_path(self, container_name : str) -> str:
         return path_join(env.BaseDataFolder, container_name, self.host_path)

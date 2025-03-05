@@ -18,6 +18,7 @@ class PythonComposeFile(ComposeFile):
         volumes : tuple[Volume] = (),
         ports : tuple[Port] = (),
         command : str = None,
+        env_vars: set[str] = (),
         pip_flags : tuple[str] = (),
     ):
         super().__init__(
@@ -29,6 +30,7 @@ class PythonComposeFile(ComposeFile):
             volumes = volumes,
             ports = ports,
             command = command,
+            env_vars = env_vars
         )
         self.base_volume = base_volume
         self.pip_flags = pip_flags
