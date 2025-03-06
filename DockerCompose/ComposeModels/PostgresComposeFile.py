@@ -1,10 +1,11 @@
 from ComposeModels.ComposeFile import ComposeFile
+from ComposeModels.DbComposeFile import DbComposeFile
 from Enums.StandardPorts import StandardPorts
 from Models.Port import Port
 from Models.Volume import Volume
 from Settings.Environment import Environment as env
 
-class PostgresComposeFile(ComposeFile):
+class PostgresComposeFile(DbComposeFile):
     def __init__(
         self,
         parent_container : ComposeFile,
@@ -25,6 +26,6 @@ class PostgresComposeFile(ComposeFile):
             env_vars = set((
                 f"POSTGRES_DB={parent_container.container_name}",
                 f"POSTGRES_USER={parent_container.container_name}",
-                f"POSTGRES_DB={parent_container.container_name}",
+                f"POSTGRES_PASSWORD={parent_container.container_name}",
             )),
         )

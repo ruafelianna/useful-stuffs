@@ -17,7 +17,7 @@ composer_files = (
     gitea_db,
     pgadmin,
     python_flask,
-    sv_devconf,
+    #sv_devconf,
     sv_devconf_db,
 )
 

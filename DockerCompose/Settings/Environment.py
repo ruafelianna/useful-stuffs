@@ -8,14 +8,14 @@ class Environment:
     LF = "\n"
 
     # network
-    NetworkDomain = "silva-viridis.ru"
+    NetworkDomain = "some-domain.local"
 
     class Networks:
         Dev = Network("network_sv_dev")
         Prod = Network("network_sv_prod")
 
     # fs
-    BaseFolder = r"C:\Users\OGM-29\Desktop\maria\vm\clean\vm_x64\scripts\vm_setup"
+    BaseFolder = r"/some/path"
     BaseDataFolder = join_path(BaseFolder, "data")
 
     GenDir = join_path(BaseFolder, "compose")
@@ -26,11 +26,15 @@ class Environment:
 
     HostsFile = "hosts.txt"
 
+    ScriptPrefix = "run_"
+    ScriptExt = ".sh"
+
     # nginx
     class Nginx:
         ConfExt = ".conf"
         ConfFile = f"nginx{ConfExt}"
         ConfDir = "nginx_conf_d"
+        StreamConfDir = "nginx_stream_conf_d"
 
     # postgres
     class Pg:

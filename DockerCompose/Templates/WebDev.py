@@ -13,8 +13,9 @@ web_dev = ComposeFile(
         env.Networks.Dev,
     ),
     volumes = (
-        Volume("nginx.conf", "/etc/nginx/nginx.conf"),
-        Volume("nginx.conf.d", "/etc/nginx/conf.d/"),
+        Volume(env.Nginx.ConfFile, "/etc/nginx/nginx.conf"),
+        Volume(env.Nginx.ConfDir, "/etc/nginx/conf.d/"),
+        Volume(env.Nginx.StreamConfDir, "/etc/nginx/stream.conf.d/"),
     ),
     ports = (
         Port(StandardPorts.Nginx, 80),

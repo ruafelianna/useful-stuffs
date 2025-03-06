@@ -11,7 +11,11 @@ pgadmin = ComposeFile(
         env.Networks.Dev,
         env.Networks.Prod,
     ),
-    volumes = (
-        Volume("data", "/var/lib/pgadmin/"),
-    ),
+    # volumes = (
+    #     Volume("data", "/var/lib/pgadmin/"),
+    # ),
+    env_vars = set((
+        f"PGADMIN_DEFAULT_EMAIL=",
+        f"PGADMIN_DEFAULT_PASSWORD=",
+    )),
 )

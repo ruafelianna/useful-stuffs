@@ -42,6 +42,9 @@ class ComposeFile:
     def get_volume(self, volume : Volume) -> str:
         return f"{volume.get_full_host_path(self.container_name)}:{volume.container_path}"
 
+    def get_port(self, port : Port) -> str:
+        return f"\"{port.external}:{port.internal}\""
+
     # docker compose file generation
 
     def generate_compose_file(self) -> str:
@@ -79,6 +82,11 @@ class ComposeFile:
             return self.get_volume(volume)
         return self._generate_list("volumes", self.volumes, func, 3)
 
+    def _generate_ports(self) -> str:
+        def func(port : Port) -> str:
+            return self.get_port(port)
+        return self._generate_list("ports", self.ports, func, 3)
+
     def _generate_env_file(self) -> str:
         return self._generate_list("env_file", self.env_files, EnvFile.get_full_path, 3)
 
@@ -98,6 +106,7 @@ class ComposeFile:
             self._generate_networks(),
             self._generate_restart(),
             self._generate_volumes(),
+            self._generate_ports(),
             self._generate_env_file(),
             self._generate_depends_on(),
             self._generate_command(),
