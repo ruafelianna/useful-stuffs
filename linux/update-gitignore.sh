@@ -18,7 +18,8 @@ gi_urls=( \
     "https://raw.githubusercontent.com/github/gitignore/refs/heads/main/VisualStudio.gitignore" \
 )
 
-S=#
+S='#'
+LF='\n'
 
 ${RM} ${GITIGNORE_DIR}
 ${MKDIR} ${GITIGNORE_DIR}
@@ -37,13 +38,13 @@ for gi_file in "${gi_files[@]}"; do
     length=${#gi_file}
     border_length=$((length + 4))
     border=$(${ECHO} "%${border_length}s" | ${TR} ' ' "${S}")
-    ${ECHO} "${border}\n${S} ${gi_file} ${S}\n${border}\n\n" >> ${GITIGNORE}
+    ${ECHO} "${border}${LF}${S} ${gi_file} ${S}${LF}${border}${LF}${LF}" >> ${GITIGNORE}
 
     # insert file into the result file
     ${CAT} ${file_path} >> ${GITIGNORE}
 
     # add new lines
-    ${ECHO} "\n\n" >> ${GITIGNORE}
+    ${ECHO} "${LF}${LF}" >> ${GITIGNORE}
 
     # increment index
     let index=${index}+1
