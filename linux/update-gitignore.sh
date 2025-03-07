@@ -10,7 +10,6 @@ fi
 # config
 
 GITIGNORE='.gitignore'
-
 REPO='https://raw.githubusercontent.com/github/gitignore/refs/heads/main'
 
 declare -A GI_FILES=(
@@ -21,21 +20,27 @@ declare -A GI_FILES=(
 
 # script
 
-rm -rf "${GITIGNORE}"
+rm -f "${GITIGNORE}"
 
 for gi_file in "${!GI_FILES[@]}"; do
     # create header
-    let border_length=${#gi_file}+4
-    border=$(printf "%${border_length}s" | tr ' ' '#')
-    printf "${border}\n# ${gi_file} #\n${border}\n\n" >> "${GITIGNORE}"
+    border_length=$(( ${#gi_file} + 4 ))
+    border=$(printf '#%.0s' $(seq 1 ${border_length}))
 
-    # download file and insert it into the result file
-    url="${GI_FILES[$gi_file]}"
+    printf "%s\n# %s #\n%s\n\n" "${border}" "${gi_file}" "${border}" >> "${GITIGNORE}"
+
+    # download content
+    url="${GI_FILES[${gi_file}]}"
+
     echo "Downloading ${gi_file}..."
+
     if curl -fsSL "${url}" >> "${GITIGNORE}"; then
-        echo "Success."
         printf "\n\n" >> "${GITIGNORE}"
+        echo "Success."
     else
         echo "Failed to download ${gi_file}." >&2
+        rm -f "${GITIGNORE}"
+        echo "The script will be aborted." >&2
+        exit 2
     fi
 done
