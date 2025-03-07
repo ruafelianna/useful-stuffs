@@ -1,41 +1,41 @@
 #!/usr/bin/env bash
 
-GITIGNORE=.gitignore
+# dependencies check
 
-RM='rm -rf'
-CURL='curl'
-ECHO='printf'
-CAT='cat'
-TR=tr
+if ! command -v curl &> /dev/null; then
+    echo "Error: curl is required!" >&2
+    exit 1
+fi
 
-gi_files=("Python" "VisualStudioCode" "VisualStudio")
+# config
 
-gi_urls=( \
-    "https://raw.githubusercontent.com/github/gitignore/refs/heads/main/Python.gitignore" \
-    "https://raw.githubusercontent.com/github/gitignore/refs/heads/main/Global/VisualStudioCode.gitignore" \
-    "https://raw.githubusercontent.com/github/gitignore/refs/heads/main/VisualStudio.gitignore" \
+GITIGNORE='.gitignore'
+
+REPO='https://raw.githubusercontent.com/github/gitignore/refs/heads/main'
+
+declare -A GI_FILES=(
+    ['Python']="${REPO}/Python.gitignore"
+    ['VisualStudio']="${REPO}/VisualStudio.gitignore"
+    ['VisualStudioCode']="${REPO}/Global/VisualStudioCode.gitignore"
 )
 
-S='#'
-LF='\n'
+# script
 
-${RM} ${GITIGNORE}
+rm -rf "${GITIGNORE}"
 
-index=0
-
-for gi_file in "${gi_files[@]}"; do
+for gi_file in "${!GI_FILES[@]}"; do
     # create header
-    length=${#gi_file}
-    border_length=$((length + 4))
-    border=$(${ECHO} "%${border_length}s" | ${TR} ' ' "${S}")
-    ${ECHO} "${border}${LF}${S} ${gi_file} ${S}${LF}${border}${LF}${LF}" >> ${GITIGNORE}
+    let border_length=${#gi_file}+4
+    border=$(printf "%${border_length}s" | tr ' ' '#')
+    printf "${border}\n# ${gi_file} #\n${border}\n\n" >> "${GITIGNORE}"
 
     # download file and insert it into the result file
-    ${CURL} ${gi_urls[${index}]} >> ${GITIGNORE}
-
-    # add new lines
-    ${ECHO} "${LF}${LF}" >> ${GITIGNORE}
-
-    # increment index
-    let index=${index}+1
+    url="${GI_FILES[$gi_file]}"
+    echo "Downloading ${gi_file}..."
+    if curl -fsSL "${url}" >> "${GITIGNORE}"; then
+        echo "Success."
+        printf "\n\n" >> "${GITIGNORE}"
+    else
+        echo "Failed to download ${gi_file}." >&2
+    fi
 done
