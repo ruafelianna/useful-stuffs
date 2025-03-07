@@ -7,11 +7,6 @@ if ! command -v curl &> /dev/null; then
     exit 1
 fi
 
-if ! command -v seq &> /dev/null; then
-    echo "Error: seq is required!" >&2
-    exit 1
-fi
-
 # config
 
 GITIGNORE='.gitignore'
@@ -30,7 +25,7 @@ rm -f "${GITIGNORE}"
 for gi_file in "${!GI_FILES[@]}"; do
     # create header
     border_length=$(( ${#gi_file} + 4 ))
-    border=$(printf '#%.0s' $(seq 1 ${border_length}))
+    border=$(eval "printf '#%.0s' {1..$((border_length))}")
 
     printf "%s\n# %s #\n%s\n\n" "${border}" "${gi_file}" "${border}" >> "${GITIGNORE}"
 
