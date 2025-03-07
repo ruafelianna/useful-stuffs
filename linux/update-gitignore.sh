@@ -49,3 +49,5 @@ for gi_file in "${gi_files[@]}"; do
     # increment index
     let index=${index}+1
 done
+
+${RM} ${GITIGNORE_DIR}
