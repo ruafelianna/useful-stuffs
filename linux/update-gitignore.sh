@@ -7,6 +7,11 @@ if ! command -v curl &> /dev/null; then
     exit 1
 fi
 
+if ! command -v seq &> /dev/null; then
+    echo "Error: seq is required!" >&2
+    exit 1
+fi
+
 # config
 
 GITIGNORE='.gitignore'
@@ -34,7 +39,7 @@ for gi_file in "${!GI_FILES[@]}"; do
 
     echo "Downloading ${gi_file}..."
 
-    if curl -fsSL "${url}" >> "${GITIGNORE}"; then
+    if curl -fsSL -A "Create-Gitignore-Script" "${url}" >> "${GITIGNORE}"; then
         printf "\n\n" >> "${GITIGNORE}"
         echo "Success."
     else
