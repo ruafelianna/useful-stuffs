@@ -2,6 +2,8 @@
 # \h host
 # \w pwd
 
+source $HOME/.bashrc.d/colors
+
 # normal user
 # PS1="$BB.-$BY[ $BP\u $BY@$BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB|___$BY[ $BB\$ $BY] $R"
 # if you have unicode support:
