@@ -24,11 +24,19 @@ mount --mkdir /dev/sda1 /mnt/boot
 pacman -Syy
 pacman-key --init
 pacman-key --populate
-pacman-key --refresh
-pacstrap -K /mnt base base-devel linux linux-firmware
+pacstrap -K /mnt base base-devel linux virtualbox-guest-utils nano tree docker docker-compose python-pdm git
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 # chroot
 arch-chroot /mnt
 ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 hwclock --systohc
+cat << EOF > /etc/docker/daemon.json
+{
+ "proxies": {
+   "http-proxy": "$http_proxy",
+   "https-proxy": "$https_proxy",
+   "no-proxy": "127.0.0.0/8,localhost"
+ }
+}
+EOF
