@@ -21,7 +21,7 @@ pacman -Syy
 pacman-key --init
 pacman-key --populate
 pacstrap -K /mnt base base-devel linux virtualbox-guest-utils \
-    git openssh nano tree man docker docker-compose python-pdm linux-headers dkms refind \
+    git openssh nano tree man docker docker-compose python-pdm linux-headers dkms refind dhcpcd \
     xfce4 xfce4-terminal mousepad thunar-archive-plugin noto-fonts noto-fonts-cjk noto-fonts-emoji
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -31,4 +31,4 @@ cp env /mnt/env
 arch-chroot /mnt source install.sh
 rm /mnt/install.sh /mnt/env
 umount -R /mnt
-reboot
+echo 'Installation complete. Extract installation media and reboot...'
