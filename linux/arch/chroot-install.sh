@@ -39,7 +39,14 @@ cd $home/.bashrc.d
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
 sed -i '15 s/# PS1/PS1/' prompt
+cat > proxy << EOF
+export http_proxy=$http_proxy
+export https_proxy=$https_proxy
+export HTTP_PROXY=$http_proxy
+export HTTPS_PROXY=$https_proxy
+EOF
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
+echo 'source $HOME/.bashrc.d/proxy' >> $home/.bashrc
 cd ..
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
 sed -i '224 s/local\///' .nanorc
@@ -52,7 +59,9 @@ cd $home/.bashrc.d
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
 sed -i '10 s/# PS1/PS1/' prompt
+cp /root/.bashrc.d/proxy .
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
+echo 'source $HOME/.bashrc.d/proxy' >> $home/.bashrc
 cd ..
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
 sed -i '224 s/local\///' .nanorc
