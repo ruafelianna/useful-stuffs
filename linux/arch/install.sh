@@ -1,4 +1,4 @@
-source env
+eval $(cat ./env)
 # keyboard layout
 loadkeys ru
 # partitions
