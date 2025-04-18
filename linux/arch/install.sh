@@ -52,6 +52,7 @@ cat >> /etc/hosts << EOF
 127.0.1.1       $COMPUTER_NAME.local    $COMPUTER_NAME
 EOF
 # docker
+mkdir /etc/docker
 cat > /etc/docker/daemon.json << EOF
 {
  "proxies": {
@@ -65,23 +66,23 @@ EOF
 echo -n $ROOT_PASSWD | passwd -s
 useradd -G wheel,docker -s /bin/bash -m $USER_NAME
 echo -n $USER_PASSWD | passwd -s $USER_NAME
-sed -n 's/#%wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/p' /etc/sudoers
+sed -n 's/#%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL) ALL/p' /etc/sudoers
 # bash root
-mkdir /root/.bashrc.d
-cd /root/.bashrc.d
+export home=/root
+mkdir -p $home/.bashrc.d
+cd $home/.bashrc.d
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
 sed -n '15 s/# PS1/PS1/p' prompt
-cd ..
-echo 'source .bashrc.d/prompt' >> .bashrc
+echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
 # bash user
-mkdir /home/$USER_NAME/.bashrc.d
-cd /home/$USER_NAME/.bashrc.d
+export home=/home/$USER_NAME
+mkdir -p $home/.bashrc.d
+cd $home/.bashrc.d
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
 sed -n '10 s/# PS1/PS1/p' prompt
-cd ..
-echo 'source .bashrc.d/prompt' >> .bashrc
+echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
 # bootloader
 refind-install
 # finish
