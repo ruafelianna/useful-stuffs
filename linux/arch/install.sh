@@ -17,11 +17,12 @@ swapon /dev/sda2
 mount /dev/sda3 /mnt
 mount --mkdir /dev/sda1 /mnt/boot
 # base system
+reflector --country 'Russia,' --save /etc/pacman.d/mirrorlist
 pacman -Syy
 pacman-key --init
 pacman-key --populate
 pacstrap -K /mnt base base-devel linux virtualbox-guest-utils \
-    git openssh nano tree man docker docker-compose python-pdm linux-headers dkms refind dhcpcd \
+    git openssh nano tree man docker docker-compose python-pdm linux-headers dkms refind dhcpcd reflector \
     xfce4 xfce4-terminal mousepad thunar-archive-plugin noto-fonts noto-fonts-cjk noto-fonts-emoji
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
