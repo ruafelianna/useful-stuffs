@@ -32,4 +32,5 @@ cp env /mnt/env
 arch-chroot /mnt source install.sh
 rm /mnt/install.sh /mnt/env
 umount -R /mnt
+swapoff /dev/sda2
 echo 'Installation complete. Extract installation media and reboot...'
