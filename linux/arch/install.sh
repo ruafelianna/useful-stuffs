@@ -34,7 +34,8 @@ pacstrap -K /mnt base base-devel linux virtualbox-guest-utils \
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 # chroot
-arch-chroot /mnt
 cp chroot-install.sh /mnt/install.sh
+arch-chroot /mnt
+rm /mnt/install.sh
 umount -R /mnt
 reboot
