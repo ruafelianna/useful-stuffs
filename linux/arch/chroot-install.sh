@@ -42,9 +42,9 @@ sed -i '15 s/# PS1/PS1/' prompt
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
 cd ..
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
-sed -i '224 s/local\///'
-sed -i '201,208 s/set/# set/'
-sed -i '210,217 s/# set/set/'
+sed -i '224 s/local\///' .nanorc
+sed -i '201,208 s/set/# set/' .nanorc
+sed -i '210,217 s/# set/set/' .nanorc
 # bash user
 export home=/home/$USER_NAME
 mkdir -p $home/.bashrc.d
@@ -55,9 +55,7 @@ sed -i '10 s/# PS1/PS1/' prompt
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
 cd ..
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
-sed -i '224 s/local\///'
+sed -i '224 s/local\///' .nanorc
 chown -R $USER_NAME:$USER_NAME $home
 # bootloader
 refind-install
-# finish
-exit
