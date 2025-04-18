@@ -1,14 +1,6 @@
+source env
 # keyboard layout
 loadkeys ru
-# proxy
-export http_proxy=
-export https_proxy=$http_proxy
-export HTTP_PROXY=$http_proxy
-export HTTPS_PROXY=$http_proxy
-export COMPUTER_NAME=
-export ROOT_PASSWD=
-export USER_NAME=
-export USER_PASSWD=
 # partitions
 sfdisk /dev/sda << EOF
 label: gpt
