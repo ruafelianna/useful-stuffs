@@ -29,7 +29,7 @@ pacman -Syy
 pacman-key --init
 pacman-key --populate
 pacstrap -K /mnt base base-devel linux virtualbox-guest-utils \
-    git ssh nano tree man docker docker-compose python-pdm linux-headers dkms refind \
+    git openssh nano tree man docker docker-compose python-pdm linux-headers dkms refind \
     xfce4 xfce4-terminal mousepad thunar-archive-plugin noto-fonts noto-fonts-cjk noto-fonts-emoji
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
