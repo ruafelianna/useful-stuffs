@@ -5,11 +5,11 @@
 source $HOME/.bashrc.d/colors
 
 # normal user
-# PS1="$BB.-$BY[ $BP\u $BY@$BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB|___$BY[ $BB\$ $BY] $R"
+# PS1="$BB.-$BY[ $BP\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB|___$BY[ $BB\$ $BY] $R"
 # if you have unicode support:
-# PS1="$BB┌╴$BY[ $BP\u $BY@$BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB└─╴$BY[ $BB\$ $BY] $R"
+# PS1="$BB┌╴$BY[ $BP\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB└─╴$BY[ $BB\$ $BY] $R"
 
 # root user
-# PS1="$BB.-$BY[ $BR\u $BY@$BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB|___$BY[ $BB\$ $BY] $R"
+# PS1="$BB.-$BY[ $BR\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB|___$BY[ $BB\$ $BY] $R"
 # if you have unicode support:
-# PS1="$BB┌╴$BY[ $BR\u $BY@$BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB└─╴$BY[ $BB\$ $BY] $R"
+# PS1="$BB┌╴$BY[ $BR\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB└─╴$BY[ $BB\$ $BY] $R"
