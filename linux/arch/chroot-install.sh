@@ -1,3 +1,4 @@
+source env
 # time
 ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 hwclock --systohc
