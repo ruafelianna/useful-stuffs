@@ -68,3 +68,9 @@ sed -i '224 s/local\///' .nanorc
 chown -R $USER_NAME:$USER_NAME $home
 # bootloader
 refind-install
+export root_uuid=$(lsblk -o UUID /dev/sda3 | sed -n '2 s/0/0/p')
+cat > /boot/refind_linux.conf << EOF
+"Boot with standard options"  "root=UUID=$root_uuid rw loglevel=3 quiet"                        
+"Boot to single-user mode"    "root=UUID=$root_uuid rw loglevel=3 quiet single"                 
+"Boot with minimal options"   "root=UUID=$root_uuid ro"
+EOF
