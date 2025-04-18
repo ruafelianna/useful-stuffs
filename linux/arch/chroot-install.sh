@@ -3,8 +3,8 @@ eval $(cat ./env)
 ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 hwclock --systohc
 # locale
-sed -ni 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/p' /etc/locale.gen
-sed -ni 's/#ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/p' /etc/locale.gen
+sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+sed -i 's/#ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 echo 'LANG=ru_RU.UTF-8' > /etc/locale.conf
 echo 'KEYMAP=ru' > /etc/vconsole.conf
@@ -30,23 +30,32 @@ EOF
 echo -n $ROOT_PASSWD | passwd -s
 useradd -G wheel,docker -s /bin/bash -m $USER_NAME
 echo -n $USER_PASSWD | passwd -s $USER_NAME
-sed -ni 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL) ALL/p' /etc/sudoers
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 # bash root
 export home=/root
 mkdir -p $home/.bashrc.d
 cd $home/.bashrc.d
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
-sed -ni '15 s/# PS1/PS1/p' prompt
+sed -i '15 s/# PS1/PS1/' prompt
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
+cd ..
+curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
+sed -i '224 s/local\///'
+sed -i '201,208 s/set/# set/'
+sed -i '210,217 s/# set/set/'
 # bash user
 export home=/home/$USER_NAME
 mkdir -p $home/.bashrc.d
 cd $home/.bashrc.d
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
 curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
-sed -ni '10 s/# PS1/PS1/p' prompt
+sed -i '10 s/# PS1/PS1/' prompt
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
+cd ..
+curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
+sed -i '224 s/local\///'
+chown -R $USER_NAME:$USER_NAME $home
 # bootloader
 refind-install
 # finish
