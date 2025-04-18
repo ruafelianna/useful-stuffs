@@ -15,13 +15,16 @@ EOF
 # format
 mkfs.vfat -n BOOT /dev/sda1
 mkswap -L SWAP /dev/sda2
-mkfs.ext4 -L ROOT /dev/sda3
+yes | mkfs.ext4 -L ROOT /dev/sda3
 # mount
 swapon /dev/sda2
 mount /dev/sda3 /mnt
 mount --mkdir /dev/sda1 /mnt/boot
 # base system
 pacman -Syy
+pacman-key --init
+pacman-key --populate
+pacman-key --refresh
 pacstrap -K /mnt base base-devel linux linux-firmware
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
