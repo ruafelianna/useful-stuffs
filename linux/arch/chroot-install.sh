@@ -82,7 +82,7 @@ tty_settings() {
   cp $tty_home/$nanorc $home
   cp env_proxy $home_d/proxy
 
-  sed -i '15,16 s/# //'
+  sed -i '15,16 s/# //' $home_d/prompt
   sed -i "$2 s/# //" $home_d/prompt
   sed -i '224 s/local\///' $home/.nanorc
   sed -i "$3 s/set/# set/" $home/.nanorc
@@ -98,6 +98,10 @@ tty_settings "/home/$USER_NAME" '19' '210,217' '201,208'
 echo '[[ -f ~/.bashrc ]] && . ~/.bashrc' > /root/.bash_profile
 
 chown -R $USER_NAME:$USER_NAME $home
+
+# services
+systemctl enable dhcpcd
+systemctl enable docker
 
 # bootloader
 refind-install
