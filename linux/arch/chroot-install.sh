@@ -82,17 +82,18 @@ tty_settings() {
   cp $tty_home/$nanorc $home
   cp env_proxy $home_d/proxy
 
-  sed -i "$2 s/# PS1/PS1/" $home_d/prompt
+  sed -i '15,16 s/# //'
+  sed -i "$2 s/# //" $home_d/prompt
   sed -i '224 s/local\///' $home/.nanorc
   sed -i "$3 s/set/# set/" $home/.nanorc
-  sed -i "$4 s/# set/set/" $home/.nanorc
+  sed -i "$4 s/# //" $home/.nanorc
 
   echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
   echo 'source $HOME/.bashrc.d/proxy' >> $home/.bashrc
 }
 
-tty_settings '/root' '15' '201,208' '210,217'
-tty_settings "/home/$USER_NAME" '10' '210,217' '201,208'
+tty_settings '/root' '22' '201,208' '210,217'
+tty_settings "/home/$USER_NAME" '19' '210,217' '201,208'
 
 chown -R $USER_NAME:$USER_NAME $home
 
