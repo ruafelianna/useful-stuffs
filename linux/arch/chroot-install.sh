@@ -1,6 +1,6 @@
 # env
-eval $(cat ./env)
 eval $(cat ./env_proxy)
+eval $(cat ./env_chroot)
 
 # time
 ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
