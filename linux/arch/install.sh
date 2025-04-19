@@ -30,6 +30,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cp chroot-install.sh /mnt/install.sh
 cp env /mnt/env
 arch-chroot /mnt source install.sh
+# finish
 rm /mnt/install.sh /mnt/env
 umount -R /mnt
 swapoff /dev/sda2
