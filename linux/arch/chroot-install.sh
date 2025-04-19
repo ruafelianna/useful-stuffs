@@ -60,7 +60,7 @@ echo -n $ROOT_PASSWD | passwd -s
 useradd -G wheel,docker -s /bin/bash -m $USER_NAME
 echo -n $USER_PASSWD | passwd -s $USER_NAME
 
-whl='wheel ALL=(ALL:ALL) ALL'
+whl='%wheel ALL=(ALL:ALL) ALL'
 sed -i "s/# $whl/$whl/" /etc/sudoers
 
 # customize tty
