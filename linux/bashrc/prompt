@@ -16,7 +16,7 @@ set_ps1() {
 # down_corner='└─╴'
 
 # normal user
-# set_ps1($BP)
+# set_ps1 $BP
 
 # root user
-# set_ps1($BR)
+# set_ps1 $BR
