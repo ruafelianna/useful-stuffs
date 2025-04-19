@@ -1,16 +1,26 @@
 eval $(cat ./env)
+eval $(cat ./env_proxy)
 # time
 ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 hwclock --systohc
 # locale
-loadkeys ru
-setfont ter-v32n
-sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-sed -i 's/#ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
+keys=ru
+font=ter-v32n
+loadkeys $keys
+setfont $font
+for locale in en_US ru_RU
+do
+  l="$locale.UTF-8 UTF-8"
+  sed -i "s/#$l/$l/" /etc/locale.gen
+done
 locale-gen
-echo 'LANG=ru_RU.UTF-8' > /etc/locale.conf
-echo 'KEYMAP=ru' > /etc/vconsole.conf
-echo 'FONT=ter-v32n' > /etc/vconsole.conf
+cat > /etc/locale.conf << EOF
+LANG=ru_RU.UTF-8
+EOF
+cat > /etc/vconsole.conf << EOF
+KEYMAP=$keys
+FONT=$font
+EOF
 # network
 echo $COMPUTER_NAME > /etc/hostname
 cat >> /etc/hosts << EOF
@@ -19,13 +29,14 @@ cat >> /etc/hosts << EOF
 127.0.1.1       $COMPUTER_NAME.local    $COMPUTER_NAME
 EOF
 # docker
-mkdir /etc/docker
-cat > /etc/docker/daemon.json << EOF
+docker_dir=/etc/docker
+mkdir $docker_dir
+cat > $docker_dir/daemon.json << EOF
 {
  "proxies": {
    "http-proxy": "$http_proxy",
    "https-proxy": "$https_proxy",
-   "no-proxy": "127.0.0.0/8,localhost"
+   "no-proxy": "$no_proxy"
  }
 }
 EOF
@@ -33,44 +44,46 @@ EOF
 echo -n $ROOT_PASSWD | passwd -s
 useradd -G wheel,docker -s /bin/bash -m $USER_NAME
 echo -n $USER_PASSWD | passwd -s $USER_NAME
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-# bash root
-export home=/root
-mkdir -p $home/.bashrc.d
-cd $home/.bashrc.d
-curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
-curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
-sed -i '15 s/# PS1/PS1/' prompt
-cat > proxy << EOF
-export http_proxy=$http_proxy
-export https_proxy=$https_proxy
-export HTTP_PROXY=$http_proxy
-export HTTPS_PROXY=$https_proxy
-EOF
+whl='wheel ALL=(ALL:ALL) ALL'
+sed -i "s/# $whl/$whl/" /etc/sudoers
+# customize tty
+tty_home=/root/tty-stuff
+base_url=https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux
+colors=bashrc/colors
+prompt=bashrc/prompt
+nanorc=.nanorc
+curl "$base_url/{$colors,$prompt,$nanorc}" --create-dirs -o "$tty_home/#1"
+ps1=PS1
+# tty root
+home=/root
+home_d=$home/.bashrc.d
+mkdir -p $home_d
+cp $tty_home/$colors $tty_home/$prompt $home_d
+cp $tty_home/$nanorc $home
+cp env_proxy $home_d/proxy
+sed -i "15 s/# $ps1/$ps1/" $home_d/prompt
+sed -i '224 s/local\///' $home/.nanorc
+sed -i '201,208 s/set/# set/' $home.nanorc
+sed -i '210,217 s/# set/set/' $home.nanorc
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
 echo 'source $HOME/.bashrc.d/proxy' >> $home/.bashrc
-cd ..
-curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
-sed -i '224 s/local\///' .nanorc
-sed -i '201,208 s/set/# set/' .nanorc
-sed -i '210,217 s/# set/set/' .nanorc
-# bash user
-export home=/home/$USER_NAME
-mkdir -p $home/.bashrc.d
-cd $home/.bashrc.d
-curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/colors
-curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/bashrc/prompt
-sed -i '10 s/# PS1/PS1/' prompt
-cp /root/.bashrc.d/proxy .
+# tty user
+home=/home/$USER_NAME
+home_d=$home/.bashrc.d
+mkdir -p $home_d
+cp $tty_home/$colors $tty_home/$prompt $home_d
+cp $tty_home/$nanorc $home
+cp env_proxy $home_d/proxy
+sed -i "10 s/# $ps1/$ps1/" $home_d/prompt
+sed -i '224 s/local\///' $home/.nanorc
+sed -i '201,208 s/# set/set/' $home.nanorc
+sed -i '210,217 s/set/# set/' $home.nanorc
 echo 'source $HOME/.bashrc.d/prompt' >> $home/.bashrc
 echo 'source $HOME/.bashrc.d/proxy' >> $home/.bashrc
-cd ..
-curl -O https://raw.githubusercontent.com/ruafelianna/useful-stuffs/refs/heads/master/linux/.nanorc
-sed -i '224 s/local\///' .nanorc
 chown -R $USER_NAME:$USER_NAME $home
 # bootloader
 refind-install
-export root_uuid=$(lsblk -o UUID /dev/sda3 | sed -n '2 s/0/0/p')
+root_uuid=$(lsblk -o UUID /dev/sda3 | sed -n '2 s/0/0/p')
 cat > /boot/refind_linux.conf << EOF
 "Boot with standard options"  "root=UUID=$root_uuid rw loglevel=3 quiet"                        
 "Boot to single-user mode"    "root=UUID=$root_uuid rw loglevel=3 quiet single"                 
