@@ -4,12 +4,19 @@
 
 eval $(cat $HOME/.bashrc.d/colors)
 
-# normal user
-# PS1="$BB.-$BY[ $BP\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB|___$BY[ $BB\$ $BY] $R"
+set_ps1() {
+  PS1="$BB$up_corner$BY[ $1\u$BY@$BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB$down_corner$BY[ $BB\$ $BY] $R"
+}
+
+up_corner='.-'
+down_corner='|___'
+
 # if you have unicode support:
-# PS1="$BB┌╴$BY[ $BP\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB└─╴$BY[ $BB\$ $BY] $R"
+# up_corner='┌╴'
+# down_corner='└─╴'
+
+# normal user
+set_ps1($BP)
 
 # root user
-# PS1="$BB.-$BY[ $BR\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB|___$BY[ $BB\$ $BY] $R"
-# if you have unicode support:
-# PS1="$BB┌╴$BY[ $BR\u $BY@ $BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB└─╴$BY[ $BB\$ $BY] $R"
+set_ps1($BR)
