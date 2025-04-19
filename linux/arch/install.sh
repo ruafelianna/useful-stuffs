@@ -37,7 +37,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # chroot
 cp chroot-install.sh env_proxy env_chroot /mnt/
 
-arch-chroot /mnt source chroot-install.sh
+arch-chroot /mnt bash -c "source chroot-install.sh"
 
 # finish
 rm /mnt/{chroot-install.sh,env_proxy,env_chroot}
