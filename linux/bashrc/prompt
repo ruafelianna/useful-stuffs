@@ -2,7 +2,7 @@
 # \h host
 # \w pwd
 
-eval $(cat $HOME/.bashrc.d/colors)
+source $HOME/.bashrc.d/colors
 
 set_ps1() {
   PS1="$BB$up_corner$BY[ $1\u$BY@$BB\h $BY]$BB:$BY[ $BB\w $BY]$R\n$BB$down_corner$BY[ $BB\$ $BY] $R"
