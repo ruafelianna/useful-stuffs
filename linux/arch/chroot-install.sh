@@ -3,6 +3,7 @@ eval $(cat ./env)
 ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 hwclock --systohc
 # locale
+loadkeys ru
 setfont ter-u32n
 sed -i 's/#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 sed -i 's/#ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
