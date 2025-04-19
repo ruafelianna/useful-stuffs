@@ -2,10 +2,6 @@
 eval $(cat ./env_proxy)
 eval $(cat ./env_chroot)
 
-# time
-ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
-hwclock --systohc
-
 # locale
 keys=ru
 font=ter-v32n
@@ -29,6 +25,10 @@ cat > /etc/vconsole.conf << EOF
 KEYMAP=$keys
 FONT=$font
 EOF
+
+# time
+ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+hwclock --systohc
 
 # network
 echo $COMPUTER_NAME > /etc/hostname
