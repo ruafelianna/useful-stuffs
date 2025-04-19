@@ -91,8 +91,8 @@ tty_settings() {
   echo 'source $HOME/.bashrc.d/proxy' >> $home/.bashrc
 }
 
-tty_settings('/root', '15', '201,208', '210,217')
-tty_settings("/home/$USER_NAME", '10', '210,217', '201,208')
+tty_settings '/root' '15' '201,208' '210,217'
+tty_settings "/home/$USER_NAME" '10' '210,217' '201,208'
 
 chown -R $USER_NAME:$USER_NAME $home
 
