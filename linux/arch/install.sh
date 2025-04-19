@@ -23,7 +23,7 @@ pacman-key --init
 pacman-key --populate
 pacstrap -K /mnt base base-devel linux linux-headers dkms virtualbox-guest-utils \
     git openssh nano tree man refind dhcpcd reflector htop \
-    noto-fonts-* docker docker-compose python-pdm
+    terminus-font docker docker-compose python-pdm
 # fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 # chroot
