@@ -95,6 +95,8 @@ tty_settings() {
 tty_settings '/root' '22' '201,208' '210,217'
 tty_settings "/home/$USER_NAME" '19' '210,217' '201,208'
 
+echo '[[ -f ~/.bashrc ]] && . ~/.bashrc' > /root/.bash_profile
+
 chown -R $USER_NAME:$USER_NAME $home
 
 # bootloader
