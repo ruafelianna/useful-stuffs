@@ -74,7 +74,7 @@ EOF
   docker_dir=/etc/docker && \
   
   echo $start'Creating docker folder...' && \
-  mkdir $docker_dir && \
+  mkdir -p $docker_dir && \
   
   echo $start'Creating docker proxy settings...' && \
   cat > $docker_dir/daemon.json << EOF
